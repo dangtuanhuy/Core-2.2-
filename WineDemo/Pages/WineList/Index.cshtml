@@ -1,0 +1,64 @@
+﻿@page
+@model WineDemo.Pages.WineList.IndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<br />
+<div class="container-fluid row">
+    <div class="col-6">
+        <h1 class="text-info">Wine List</h1>
+    </div>
+    <div class="col-6 text-right">
+        <a asp-page="Create" class="btn btn-primary">Crete New Wine</a>
+    </div>
+</div>
+@if(Model.Messaage != null)
+{
+    <div class="alert alert-info alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        @Model.Messaage
+    </div>
+}
+<form method="post">
+    @if (Model.Wines.Count() > 0)
+    {
+        <br />
+        <br />
+        <table class="table table-striped table-bordered">
+            <tr class="table-secondary">
+                <th>@Html.DisplayNameFor(m => m.Wines.FirstOrDefault().CategoryName)</th>
+                <th>@Html.DisplayNameFor(m => m.Wines.FirstOrDefault().ISBS)</th>
+                <th>@Html.DisplayNameFor(m => m.Wines.FirstOrDefault().Publisher)</th>
+                <th></th>
+            </tr>
+            @foreach (var item in Model.Wines)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(m => item.CategoryName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.ISBS)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(m => item.Publisher)
+                    </td>
+                    <td>
+                        <button asp-page-handler="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure delete record?')">DELETE</button>
+                        <a asp-route-id="@item.Id" asp-page="Edit" class="btn btn-success btn-sm">EDIT</a>
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        <p>
+            Not find Wine
+        </p>
+    }
+</form>
